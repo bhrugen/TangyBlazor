@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TangyWeb_Server", "TangyWeb_Server\TangyWeb_Server.csproj", "{2103A348-F724-44F6-AAB6-0E7F67E5B86E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TangyWeb_Client", "TangyWeb_Client\TangyWeb_Client.csproj", "{976D9414-6A42-40BC-8093-4508B63B0830}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2103A348-F724-44F6-AAB6-0E7F67E5B86E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2103A348-F724-44F6-AAB6-0E7F67E5B86E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2103A348-F724-44F6-AAB6-0E7F67E5B86E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976D9414-6A42-40BC-8093-4508B63B0830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976D9414-6A42-40BC-8093-4508B63B0830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976D9414-6A42-40BC-8093-4508B63B0830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976D9414-6A42-40BC-8093-4508B63B0830}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
