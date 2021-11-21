@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tangy_Models\Tangy_Models.csproj" />
+  </ItemGroup>
+
 </Project>
