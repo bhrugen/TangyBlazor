@@ -1,0 +1,21 @@
+﻿ <div class="bg-light border m-1 col-5">
+                <h4 class="text-secondary">Product - @Product.Id</h4>
+                Name - @Product.Name<br/>
+                Show Properties : 
+                <input type="checkbox" @bind-value="Product.IsActive" checked="@(Product.IsActive?"checked":null)"/>
+
+                @if (Product.IsActive)
+                {
+                    @foreach(var prodProp in Product.ProductProperties)
+                    {
+                        <p>@prodProp.Key - @prodProp.Value</p>
+                    }
+                }
+                <br/>
+                <_EditDeleteButton IsActive="@Product.IsActive">
+                </_EditDeleteButton>
+            </div>
+@code {
+    [Parameter]
+    public Demo_Product Product { get; set; }
+}
