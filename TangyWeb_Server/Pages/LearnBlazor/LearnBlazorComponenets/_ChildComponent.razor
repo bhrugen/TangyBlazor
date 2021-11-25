@@ -9,8 +9,9 @@
         {
             <span> Hello, from Empty Render Fragment </span>
         }
-
+        
     </div>
+    <button class="btn btn-danger" @onclick="OnButtonClick">Button to be clicked</button>
 </div>
 
 @code {
@@ -19,4 +20,7 @@
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback OnButtonClick{ get; set; }
 }
