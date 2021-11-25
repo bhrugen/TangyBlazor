@@ -18,9 +18,14 @@
         }
     </div>
     <button class="btn btn-danger" @onclick="OnButtonClick">Button to be clicked</button>
+
+    <_GrandChildComponent MessageForGrandChild="@MessageForGrandChild"></_GrandChildComponent>
 </div>
 
 @code {
+    [Parameter]
+    public string MessageForGrandChild { get; set; }
+
     [Parameter]
     public string Title { get; set; } 
 
