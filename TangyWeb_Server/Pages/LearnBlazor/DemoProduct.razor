@@ -1,7 +1,7 @@
 ﻿@page "/learnBlazor/demoproduct"
 
 <h2 class="text-primary">DemoProduct</h2>
-
+<p>Favorites Total : @SelectedFavouriteCount</p>
 <div class="border p-2 mt-2" style="background-color:azure">
     <div class="row">
         @foreach(var prod in Products)
@@ -12,7 +12,8 @@
 </div>
 
 @code {
-     List<Demo_Product> Products = new();
+    List<Demo_Product> Products = new();
+    private int SelectedFavouriteCount { get; set; } = 0;
 
     protected override void OnInitialized()
     {
@@ -44,5 +45,17 @@
                 new Demo_ProductProp {Id = 3,Key = "Color",Value = "White"}
             }
         });
+    }
+
+    protected void FavouriteCountUpdate(bool isSelected)
+    {
+        if (isSelected)
+        {
+            SelectedFavouriteCount++;
+        }
+        else 
+        {
+            SelectedFavouriteCount--;
+        }
     }
 }
