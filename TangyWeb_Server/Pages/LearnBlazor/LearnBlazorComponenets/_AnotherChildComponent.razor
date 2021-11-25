@@ -1,0 +1,14 @@
+﻿<div>
+    <h4 class="text-primary pt-3">Another Child Component</h4>
+    <input id="nametemp" placeholder="@Placeholder" required="@Required" maxlength="@MaxLength"/>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Placeholder { get; set; } = "Initial Text";
+    [Parameter]
+    public string Required { get; set; } = "required";
+    [Parameter]
+    public string MaxLength { get; set; } = "10";
+}
