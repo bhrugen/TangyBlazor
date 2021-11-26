@@ -28,16 +28,16 @@
 
     private async Task TestConfirmBox()
     {
-       ConfirmResult= await _JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+        ConfirmResult= await _JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
     }
 
     private async Task ToastrSuccess()
     {
-        await _JsRuntime.InvokeVoidAsync("ShowToastr", "success","Success");
+        await _JsRuntime.ToastrSuccess("Operation Successful");
     }
 
     private async Task ToastrFailure()
     {
-        await _JsRuntime.InvokeVoidAsync("ShowToastr", "error","Error");
+        await _JsRuntime.ToastrError("Operation Failed");
     }
 }
