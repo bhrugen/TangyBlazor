@@ -1,0 +1,42 @@
+﻿@page "/learnBlazor/lifecycle"
+
+<h3>LifeCycle</h3>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<div class="border">
+    <_LifeCycleChild></_LifeCycleChild>
+</div>
+
+<hr />
+@foreach (var item in EventType)
+{
+    @item
+    <hr />
+}
+
+
+@code {
+    private int currentCount = 0;
+    List<string> EventType = new List<string>();
+
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+
+    protected override void OnInitialized()
+    {
+        EventType.Add("OnInitialized is called");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        EventType.Add("OnInitializedAsync is called");
+        await Task.Delay(1000);
+    }
+}
