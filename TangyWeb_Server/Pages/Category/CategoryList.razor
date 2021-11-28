@@ -74,4 +74,15 @@
         DeleteCategoryId=id;
         _jsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
     }
+
+    public async Task ConfirmDelete_Click(bool isConfirmed)
+    {
+        if(isConfirmed && DeleteCategoryId!=0)
+        {
+            //delete
+            _categoryRepository.Delete(DeleteCategoryId);
+            LoadCategories();
+            _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        }
+    }
 }
