@@ -1,13 +1,19 @@
 ﻿@page "/category/create"
 
+@inject ICategoryRepository _categoryRepository
+@inject NavigationManager _navigationManager
+
 <div class="row my-2">
     <h3 class="card-title text-primary mb-3 ml-3">@Title Category</h3>
 
     <div class="col-10">
-        <EditForm Model="Category">
+        <EditForm Model="Category" OnValidSubmit="UpsertCategory">
+            <DataAnnotationsValidator/>
+            @*<ValidationSummary/>*@
             <div class="form-group">
                 <label>Name</label>
                 <InputText @bind-Value="Category.Name" class="form-control"></InputText> 
+                <ValidationMessage For="()=>Category.Name"></ValidationMessage>
             </div>
             <div class="form-group py-2">
                 <button class="btn btn-primary">@Title</button>
@@ -20,4 +26,10 @@
 @code {
     private CategoryDTO Category { get; set; } = new CategoryDTO();
     private string Title { get; set; } = "Create";
+
+    private void UpsertCategory()
+    {
+        _categoryRepository.Create(Category);
+        _navigationManager.NavigateTo("category");
+    }
 }
