@@ -26,21 +26,42 @@
                                 @objCat.Name
                             </td> 
                             <td>
-                            <NavLink href="" class="btn-primary btn">Edit</NavLink>
+                            <NavLink href="@($"category/edit/{objCat.Id}")" class="btn-primary btn">Edit</NavLink>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         }
+        else
+        {
+            if (IsLoading)
+            {
+                //loading gif
+                <div class="text-center">
+                <img src="/images/loading.gif">
+                    </div>
+            }
+            else
+            {
+                //no records
+                <p>No recrods found.</p>
+            }
+        }
     </div>
 </div>
 
 @code {
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
+    public bool IsLoading { get; set; } = true;
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(LoadCategories);
+    }
 
-    protected override void OnInitialized()
+    private void LoadCategories()
     {
         Categories = _categoryRepository.GetAll();
+        IsLoading=false;
     }
 }

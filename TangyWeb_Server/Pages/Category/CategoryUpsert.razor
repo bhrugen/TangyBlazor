@@ -1,5 +1,5 @@
 ﻿@page "/category/create"
-
+@page "/category/edit/{id:int}"
 @inject ICategoryRepository _categoryRepository
 @inject NavigationManager _navigationManager
 
@@ -7,6 +7,13 @@
     <h3 class="card-title text-primary mb-3 ml-3">@Title Category</h3>
 
     <div class="col-10">
+        @if (IsLoading)
+        {
+             <div class="text-center">
+                <img src="/images/loading.gif">
+                    </div>
+        }
+        else{
         <EditForm Model="Category" OnValidSubmit="UpsertCategory">
             <DataAnnotationsValidator/>
             @*<ValidationSummary/>*@
@@ -20,16 +27,54 @@
                 <NavLink href="category" class="btn btn-secondary">Back to Index</NavLink>
             </div>
         </EditForm>
+        }
     </div>
 </div>
 
 @code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+
     private CategoryDTO Category { get; set; } = new CategoryDTO();
     private string Title { get; set; } = "Create";
+    public bool IsLoading { get; set; } = true;
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id==0)
+        {
+            //create
+            IsLoading=false;
+        }
+        else
+        {
+            //update
+            Title="Update";
+            await Task.Run(LoadCategory);
+        }
 
+    }
+
+    private void LoadCategory()
+    {
+        Category = _categoryRepository.Get(Id);
+        IsLoading=false;
+    }
     private void UpsertCategory()
     {
-        _categoryRepository.Create(Category);
+        if (Category.Id==0)
+        {
+            //create
+            _categoryRepository.Create(Category);
+        }
+        else
+        {
+            //update
+            _categoryRepository.Update(Category);
+        }
         _navigationManager.NavigateTo("category");
+
+        
     }
 }
