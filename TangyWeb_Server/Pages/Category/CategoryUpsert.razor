@@ -1,5 +1,19 @@
-﻿<h3>CategoryUpsert</h3>
+﻿@page "/category/create"
+
+<div class="row my-2">
+    <h3 class="card-title text-primary mb-3 ml-3">@Title Category</h3>
+
+    <div class="col-12">
+        <EditForm Model="Category">
+            <div class="form-group">
+                <label>Name</label>
+                <InputText @bind-Value="Category.Name" class="form-control"></InputText> 
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
-
+    private CategoryDTO Category { get; set; } = new CategoryDTO();
+    private string Title { get; set; } = "Create";
 }
