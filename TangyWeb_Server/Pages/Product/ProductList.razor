@@ -1,7 +1,7 @@
 ﻿@page "/product"
 @inject IProductRepository _productRepository
 @inject IJSRuntime _jsRuntime
-
+@inject IFileUpload _fileUpload
 <_DeleteConfirmation IsParentComponentProcessing="IsLoading" ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>
 <div class="row mt-4">
     <div class="col-6">
@@ -101,7 +101,14 @@
         if(isConfirmed && DeleteProductId!=0)
         {
             //delete
+            ProductDTO product = await _productRepository.Get(DeleteProductId);
+            if (!product.ImageUrl.Contains("default.png"))
+            {
+                _fileUpload.DeleteFile(product.ImageUrl);
+
+            }
             await _productRepository.Delete(DeleteProductId);
+            await _jsRuntime.ToastrSuccess("Product Deleted successfully");
             await LoadProducts();
             await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
         }

@@ -9,7 +9,7 @@
 <div class="row my-2">
     <h3 class="card-title text-primary mb-3 ml-3">@Title Product</h3>
 
-    <div class="col-10">
+    <div class="col-md-10">
         @if (IsLoading)
         {
              <div class="text-center">
@@ -62,7 +62,7 @@
                     </InputSelect>
                      <ValidationMessage For="()=>Product.CategoryId"></ValidationMessage>
                 </div>
-                <div class="form-group col-6">
+                <div class="form-group pt-4 col-6">
                     <InputFile OnChange="HandleImageUpload"></InputFile>
                 </div>
             </div>
@@ -75,6 +75,9 @@
         </EditForm>
         }
     </div>
+    <div class="col-md-2">
+        <img src="@Product.ImageUrl" class="w-100">
+    </div>
 </div>
 
 @code {
@@ -82,10 +85,14 @@
     [Parameter]
     public int Id { get; set; }
 
-    private ProductDTO Product { get; set; } = new();
+    private ProductDTO Product { get; set; } = new()
+    {
+        ImageUrl="/images/default.png"
+    };
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
     private string Title { get; set; } = "Create";
     public bool IsLoading { get; set; } 
+    public string OldImageUrl { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -106,6 +113,7 @@
             //update
             Title="Update";
             Product = await _productRepository.Get(Id);
+            OldImageUrl = Product.ImageUrl;
         }
 
         IsLoading=false;
@@ -117,11 +125,18 @@
         {
             //create
             await _productRepository.Create(Product);
+            await _jsRuntime.ToastrSuccess("Product created successfully.");
         }
         else
         {
             //update
+            if (OldImageUrl!=Product.ImageUrl)
+            {
+                _fileUpload.DeleteFile(OldImageUrl);
+
+            }
             await _productRepository.Update(Product);
+            await _jsRuntime.ToastrSuccess("Product updated successfully.");
         }
         _navigationManager.NavigateTo("product");
 
