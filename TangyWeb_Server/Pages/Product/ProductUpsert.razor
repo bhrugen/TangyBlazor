@@ -5,7 +5,7 @@
 @inject NavigationManager _navigationManager
 
 <div class="row my-2">
-    <h3 class="card-title text-primary mb-3 ml-3">@Title Category</h3>
+    <h3 class="card-title text-primary mb-3 ml-3">@Title Product</h3>
 
     <div class="col-10">
         @if (IsLoading)
@@ -28,11 +28,7 @@
                 <InputText @bind-Value="Product.Color" class="form-control"></InputText> 
                 <ValidationMessage For="()=>Product.Color"></ValidationMessage>
             </div>
-             <div class="form-group">
-                <label>Name</label>
-                <InputText @bind-Value="Product.Name" class="form-control"></InputText> 
-                <ValidationMessage For="()=>Product.Name"></ValidationMessage>
-            </div>
+            
              <div class="form-group">
                 <label>Description</label>
                 <InputTextArea @bind-Value="Product.Description" class="form-control"></InputTextArea> 
@@ -40,17 +36,29 @@
             </div>
 
             <div class="row pt-3">
-                <div class="btn-group col-6">
+                <div class="form-group col-6">
                 <div class="form-check">
                     <InputCheckbox @bind-Value="Product.ShopFavorites" class="form-check-input"></InputCheckbox>
                     <label class="form-check-label">Is Shop Favorites</label>
                 </div>
                 </div>
-                <div class="btn-group col-6">
+                <div class="form-group col-6">
                 <div class="form-check">
                     <InputCheckbox @bind-Value="Product.CustomerFavorites" class="form-check-input"></InputCheckbox>
                     <label class="form-check-label">Is Customer Favorites</label>
                 </div>
+                </div>
+                 <div class="form-group col-6">
+                     <label>Category</label>
+                    <InputSelect @bind-Value="Product.CategoryId" class="form-select">
+                        <option value="0" disabled="disabled" selected>--Select Category--</option> 
+                            @foreach(var cat in Categories)
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+
+                    </InputSelect>
+                     <ValidationMessage For="()=>Product.CategoryId"></ValidationMessage>
                 </div>
             </div>
 
