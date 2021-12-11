@@ -3,6 +3,8 @@
 @inject ICategoryRepository _categoryRepository
 @inject IProductRepository _productRepository
 @inject NavigationManager _navigationManager
+@inject IFileUpload _fileUpload
+@inject IJSRuntime _jsRuntime
 
 <div class="row my-2">
     <h3 class="card-title text-primary mb-3 ml-3">@Title Product</h3>
@@ -59,6 +61,9 @@
 
                     </InputSelect>
                      <ValidationMessage For="()=>Product.CategoryId"></ValidationMessage>
+                </div>
+                <div class="form-group col-6">
+                    <InputFile OnChange="HandleImageUpload"></InputFile>
                 </div>
             </div>
 
@@ -120,6 +125,37 @@
         }
         _navigationManager.NavigateTo("product");
 
-        
+
+    }
+
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+        IsLoading=true;
+        try
+        {
+            if (e.GetMultipleFiles().Count>0)
+            {
+                foreach (var file in e.GetMultipleFiles())
+                {
+                    System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
+                    if (fileInfo.Extension.ToLower() == ".jpg" ||
+                      fileInfo.Extension.ToLower() == ".png" ||
+                      fileInfo.Extension.ToLower() == ".jpeg")
+                    {
+                        Product.ImageUrl = await _fileUpload.UploadFile(file)
+                    }
+                    else
+                    {
+                        await _jsRuntime.ToastrError("Please select .jpg/.jpeg/.png file only");
+                        return;
+                    }
+                }
+            }
+            IsLoading=false;
+        }
+        catch(Exception e)
+        {
+             await _jsRuntime.ToastrError(ex.Message);
+        }
     }
 }
