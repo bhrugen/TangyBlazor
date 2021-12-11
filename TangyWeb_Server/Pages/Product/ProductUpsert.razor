@@ -1,6 +1,7 @@
-﻿@page "/category/create"
-@page "/category/edit/{id:int}"
+﻿@page "/product/create"
+@page "/product/edit/{id:int}"
 @inject ICategoryRepository _categoryRepository
+@inject IProductRepository _productRepository
 @inject NavigationManager _navigationManager
 
 <div class="row my-2">
@@ -14,17 +15,49 @@
                     </div>
         }
         else{
-        <EditForm Model="Category" OnValidSubmit="UpsertCategory">
+        <EditForm Model="Product" OnValidSubmit="UpsertProduct">
             <DataAnnotationsValidator/>
             @*<ValidationSummary/>*@
             <div class="form-group">
                 <label>Name</label>
-                <InputText @bind-Value="Category.Name" class="form-control"></InputText> 
-                <ValidationMessage For="()=>Category.Name"></ValidationMessage>
+                <InputText @bind-Value="Product.Name" class="form-control"></InputText> 
+                <ValidationMessage For="()=>Product.Name"></ValidationMessage>
             </div>
+             <div class="form-group">
+                <label>Color</label>
+                <InputText @bind-Value="Product.Color" class="form-control"></InputText> 
+                <ValidationMessage For="()=>Product.Color"></ValidationMessage>
+            </div>
+             <div class="form-group">
+                <label>Name</label>
+                <InputText @bind-Value="Product.Name" class="form-control"></InputText> 
+                <ValidationMessage For="()=>Product.Name"></ValidationMessage>
+            </div>
+             <div class="form-group">
+                <label>Description</label>
+                <InputTextArea @bind-Value="Product.Description" class="form-control"></InputTextArea> 
+                <ValidationMessage For="()=>Product.Description"></ValidationMessage>
+            </div>
+
+            <div class="row pt-3">
+                <div class="btn-group col-6">
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="Product.ShopFavorites" class="form-check-input"></InputCheckbox>
+                    <label class="form-check-label">Is Shop Favorites</label>
+                </div>
+                </div>
+                <div class="btn-group col-6">
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="Product.CustomerFavorites" class="form-check-input"></InputCheckbox>
+                    <label class="form-check-label">Is Customer Favorites</label>
+                </div>
+                </div>
+            </div>
+
+              
             <div class="form-group py-2">
                 <button class="btn btn-primary">@Title</button>
-                <NavLink href="category" class="btn btn-secondary">Back to Index</NavLink>
+                <NavLink href="product" class="btn btn-secondary">Back to Index</NavLink>
             </div>
         </EditForm>
         }
@@ -36,50 +69,48 @@
     [Parameter]
     public int Id { get; set; }
 
-
-    private CategoryDTO Category { get; set; } = new CategoryDTO();
+    private ProductDTO Product { get; set; } = new();
+    private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
     private string Title { get; set; } = "Create";
     public bool IsLoading { get; set; } 
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            if (Id==0)
-            {
-                //create
-                IsLoading=false;
-            }
-            else
-            {
-                //update
-                Title="Update";
-                await LoadCategory();
-            }
+            await LoadProduct();
         }
 
     }
 
-    private async Task LoadCategory()
+    private async Task LoadProduct()
     {
         IsLoading=true;
         StateHasChanged();
-        Category = await _categoryRepository.Get(Id);
+        Categories = await _categoryRepository.GetAll();
+        if (Id!=0)
+        {
+            //update
+            Title="Update";
+            Product = await _productRepository.Get(Id);
+        }
+
         IsLoading=false;
         StateHasChanged();
     }
-    private  async Task UpsertCategory()
+    private  async Task UpsertProduct()
     {
-        if (Category.Id==0)
+        if (Product.Id==0)
         {
             //create
-            await _categoryRepository.Create(Category);
+            await _productRepository.Create(Product);
         }
         else
         {
             //update
-            await _categoryRepository.Update(Category);
+            await _productRepository.Update(Product);
         }
-        _navigationManager.NavigateTo("category");
+        _navigationManager.NavigateTo("product");
 
         
     }

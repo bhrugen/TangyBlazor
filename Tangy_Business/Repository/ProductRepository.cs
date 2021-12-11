@@ -64,7 +64,7 @@ namespace Tangy_Business.Repository
             if (objFromDb!=null)
             {
                 objFromDb.Name=objDTO.Name;
-                objFromDb.Desciption = objDTO.Desciption;
+                objFromDb.Description = objDTO.Description;
                 objFromDb.ImageUrl = objDTO.ImageUrl;
                 objFromDb.CategoryId = objDTO.CategoryId;
                 objFromDb.Color= objDTO.Color;
