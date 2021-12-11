@@ -64,15 +64,15 @@
     {
         if (firstRender)
         {
-            LoadCategories();
+            await LoadCategories();
         }
     }
 
-    private void LoadCategories()
+    private async Task LoadCategories()
     {
         IsLoading=true;
         StateHasChanged();
-        Categories = _categoryRepository.GetAll();
+        Categories = await _categoryRepository.GetAll();
         IsLoading=false;
         StateHasChanged();
     }
@@ -89,9 +89,9 @@
         if(isConfirmed && DeleteCategoryId!=0)
         {
             //delete
-            _categoryRepository.Delete(DeleteCategoryId);
-            LoadCategories();
-            _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+            await _categoryRepository.Delete(DeleteCategoryId);
+            await LoadCategories();
+            await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
         }
         IsLoading=false;
     }
