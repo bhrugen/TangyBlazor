@@ -142,7 +142,7 @@
                       fileInfo.Extension.ToLower() == ".png" ||
                       fileInfo.Extension.ToLower() == ".jpeg")
                     {
-                        Product.ImageUrl = await _fileUpload.UploadFile(file)
+                        Product.ImageUrl = await _fileUpload.UploadFile(file);
                     }
                     else
                     {
@@ -153,7 +153,7 @@
             }
             IsLoading=false;
         }
-        catch(Exception e)
+        catch(Exception ex)
         {
              await _jsRuntime.ToastrError(ex.Message);
         }
