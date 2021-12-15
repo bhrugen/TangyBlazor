@@ -8,14 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
-    <PackageReference Include="Syncfusion.Blazor.Grid" Version="19.3.0.57" />
-    <PackageReference Include="Syncfusion.Blazor.RichTextEditor" Version="19.3.0.57" />
-    <PackageReference Include="Syncfusion.Blazor.Themes" Version="19.3.0.57" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="19.3.0.59" />
+    <PackageReference Include="Syncfusion.Blazor.RichTextEditor" Version="19.3.0.59" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="19.3.0.59" />
   </ItemGroup>
 
   <ItemGroup>

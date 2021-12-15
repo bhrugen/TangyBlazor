@@ -31,7 +31,7 @@ else
 
 
                 <GridColumns>
-                    <GridColumn Field=@nameof(ProductPriceDTO.Id) HeaderText="ID" ></GridColumn>
+                    <GridColumn IsPrimaryKey="true" AllowAdding="false" Field=@nameof(ProductPriceDTO.Id) HeaderText="ID" ></GridColumn>
                     <GridColumn Field=@nameof(ProductPriceDTO.Size) HeaderText="Size" >
                         <EditTemplate>
                             <Syncfusion.Blazor.DropDowns.SfDropDownList DataSource="SizeList" TItem="string" TValue="string"
@@ -87,8 +87,14 @@ else
             }
             if (args.Action=="Edit")
             {
-                
+                await _productPriceRepository.Update(args.Data);
             }
+        }
+        if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
+        {
+            await _productPriceRepository.Delete(args.Data.Id);
+            productPriceGrid.Refresh();
+
         }
 
 
