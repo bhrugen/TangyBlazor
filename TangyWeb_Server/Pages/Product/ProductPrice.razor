@@ -24,12 +24,17 @@ else
         </div>
     </div>
 
-     <SfGrid @ref="productPriceGrid" DataSource="@ProductPrices" AllowPaging="true"
+     <SfGrid @ref="productPriceGrid" DataSource="@ProductPrices" AllowPaging="true" AllowFiltering="true" AllowSorting="true"
      Toolbar="@(new List<string>{"Add","Edit","Update","Delete","Cancel"})">
          <GridEditSettings AllowAdding="true" AllowEditing="true" ShowDeleteConfirmDialog="true" AllowDeleting="true"></GridEditSettings>
          <GridEvents OnActionBegin="ActionHandler" TValue="ProductPriceDTO"></GridEvents>
-
-
+           <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu" ></GridFilterSettings>
+           <GridSortSettings AllowUnsort="false">
+               <GridSortColumns>
+                   <GridSortColumn Field="Price" Direction="SortDirection.Ascending"></GridSortColumn>
+               </GridSortColumns>
+           </GridSortSettings>
+         <GridPageSettings PageSize="5" PageCount="5" PageSizes="true"></GridPageSettings>
                 <GridColumns>
                     <GridColumn IsPrimaryKey="true" AllowAdding="false" Field=@nameof(ProductPriceDTO.Id) HeaderText="ID" ></GridColumn>
                     <GridColumn Field=@nameof(ProductPriceDTO.Size) HeaderText="Size" >
@@ -41,6 +46,14 @@ else
                         </EditTemplate>
                     </GridColumn>
                     <GridColumn Field=@nameof(ProductPriceDTO.Price) HeaderText="Price" Format="C2"  ></GridColumn>
+                    <GridColumn HeaderText="Manage Records" Width="150">
+            <GridCommandColumns>
+                <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-flat" })"></GridCommandColumn>
+                <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-flat" })"></GridCommandColumn>
+                <GridCommandColumn Type="CommandButtonType.Save" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-update", CssClass = "e-flat" })"></GridCommandColumn>
+                <GridCommandColumn Type="CommandButtonType.Cancel" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-cancel-icon", CssClass = "e-flat" })"></GridCommandColumn>
+            </GridCommandColumns>
+         </GridColumn>
     </GridColumns>
     </SfGrid>
 }
