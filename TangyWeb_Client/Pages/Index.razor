@@ -1,9 +1,54 @@
 ﻿@page "/"
+@inject IProductService _productService
 
-<PageTitle>Index</PageTitle>
+@if (IsProcessing)
+{
+    <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+        <img src="images/ajax-loader.gif" />
+    </div>
+}
+else
+{
+<div class="container">
+    <div class="row  pb-3 pt-3 backgroundWhite">
+        <h2 class="text-success pl-1"><b>CATEGORY NAME</b></h2>
+        <div class="col-lg-4 col-md-6 pb-4 filter">
+            <div class="card bg-white rounded shadow-sm" style="border:1px solid #222">
+                <div class="card-body pb-1 row">
+                    <div class="col-8 h5">Name</div>
+                    <div class="col-4 text-end"><span class="text-info h4">ProductPrice</span></div>
+                </div>
 
-<h1>Hello, world!</h1>
+                <img class="card-img-top img-fluid d-block mx-auto mb-3" src="" alt="menuitem image">
+                <div class="card-body p-1 px-3 row">
+                    <div class="col-6">
+                        <span class="badge p-2 border w-100 text-dark bg-warning ">CategoryName</span>
+                    </div>
+                    <div class="col-6 border-0">
+                        <span class="badge p-2 border w-100 bg-info ">Color</span>
+                    </div>
+                    <div class="col-12 pt-2" style="font-size:13px; text-align:justify">
+                        <p>Desciption</p>
+                    </div>
+                    <div class="col-12 p-1">
+                        <a href="" class="btn btn-dark form-control btn-sm p-2" style="height:40px">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
 
-Welcome to your new app.
+@code{
+    public bool IsProcessing { get; set; } = false;
+    public IEnumerable<ProductDTO> Products { get; set; } = new List<ProductDTO>();
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsProcessing=true;
+        Products = await _productService.GetAll();
+        IsProcessing=false;
+    }
+}
