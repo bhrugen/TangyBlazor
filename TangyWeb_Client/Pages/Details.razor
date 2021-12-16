@@ -1,0 +1,83 @@
+﻿@page "/details/{ProductId:int}"
+@inject IProductService _productService
+
+@if (IsProcessing)
+{
+    <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+        <img src="images/ajax-loader.gif" />
+    </div>
+}
+else
+{
+<form method="post">
+    <div class="card container mt-4">
+        <div class="card-header ml-0  row">
+            <div class="col-12 col-md-6">
+                <h1 class="text-primary">@Product.Name</h1>
+            </div>
+
+            <div class="col-12 col-md-6 text-end pt-4">
+                <span class="badge bg-info pt-2" style="height:30px;">@Product.Category.Name</span>
+                <span class="badge bg-warning pt-2" style="height:30px;">@Product.Color</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container rounded p-2">
+                <div class="row">
+                    <div class="col-10">
+                       <p>@((MarkupString)Product.Description)</p>
+                        <div class="row">
+                            @foreach(var productPrice in Product.ProductPrices)
+                            {
+                            <div class="col-2 bg-light text-center pt-2 m-2" style="border:3px solid #28A745; border-radius:10px;box-shadow:5px">
+                                <p>@productPrice.Size</p>
+                                <p>@productPrice.Price.ToString("c")</p>
+                            </div>
+                            }
+                            <div class="row pl-2">
+                                <div class="col-2 text-primary"><h4>Count</h4></div>
+                                <div class="col-10">
+                                    <input type="text" class="form-control" />
+
+                                </div>
+                            </div>
+                        </div>
+                       
+
+                    </div>
+                     <div class="col-2">
+                            <img src="@Product.ImageUrl" width="100%" class="rounded" />
+                        </div>
+
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-1">
+                        <a class="btn btn-success form-control " href="/">Back to Home</a>
+                    </div>
+                    <div class="col-12 col-md-6 pb-1">
+                        <button type="submit" value="Add to Cart" class="btn btn-primary form-control">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+}
+@code {
+    [Parameter]
+    public int ProductId { get; set; }
+
+    public ProductDTO Product { get; set; } = new();
+    public bool IsProcessing { get; set; } = false;
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        IsProcessing=true;
+        Product = await _productService.Get(ProductId);
+        IsProcessing=false;
+    }
+}
