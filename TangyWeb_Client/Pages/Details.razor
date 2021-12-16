@@ -1,5 +1,6 @@
 ﻿@page "/details/{ProductId:int}"
 @inject IProductService _productService
+@using TangyWeb_Client.ViewModels
 
 @if (IsProcessing)
 {
@@ -72,7 +73,7 @@ else
 
     public ProductDTO Product { get; set; } = new();
     public bool IsProcessing { get; set; } = false;
-
+    public DetailsVM DetailsVM { get; set; } = new();
     
     protected override async Task OnInitializedAsync()
     {
