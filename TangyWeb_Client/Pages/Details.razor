@@ -30,10 +30,25 @@ else
                         <div class="row">
                             @foreach(var productPrice in Product.ProductPrices)
                             {
-                            <div class="col-2 bg-light text-center pt-2 m-2" style="border:3px solid #28A745; border-radius:10px;box-shadow:5px">
-                                <p>@productPrice.Size</p>
-                                <p>@productPrice.Price.ToString("c")</p>
-                            </div>
+                                if(productPrice.Id==DetailsVM.SelectedProductPriceId)
+                                    {
+                                        //this product is selected by user
+                                        <div class="col-2 bg-light text-center pt-2 m-2" style="border:3px solid #28A745; border-radius:10px;box-shadow:5px">
+                                            <p>@productPrice.Size</p>
+                                            <p>@productPrice.Price.ToString("c")</p>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        //all other products
+                                        <div class="col-2 bg-light text-center pt-2 m-2" style="border:1px solid; border-radius:10px;box-shadow:5px"
+                                        @onclick="(args)=>SelectedProductPrice(args,productPrice.Id)">
+                                            <p>@productPrice.Size</p>
+                                            <p>@productPrice.Price.ToString("c")</p>
+                                        </div>
+                                    }
+
+                            
                             }
                             <div class="row pl-2">
                                 <div class="col-2 text-primary"><h4>Count</h4></div>
@@ -74,11 +89,17 @@ else
     public ProductDTO Product { get; set; } = new();
     public bool IsProcessing { get; set; } = false;
     public DetailsVM DetailsVM { get; set; } = new();
-    
+
     protected override async Task OnInitializedAsync()
     {
         IsProcessing=true;
         Product = await _productService.Get(ProductId);
         IsProcessing=false;
+    }
+
+    private async Task SelectedProductPrice(MouseEventArgs e, int productPriceId)
+    {
+        DetailsVM.ProductPrice = Product.ProductPrices.FirstOrDefault(u => u.Id==productPriceId);
+        DetailsVM.SelectedProductPriceId=productPriceId;
     }
 }
