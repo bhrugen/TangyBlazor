@@ -10,7 +10,8 @@
 }
 else
 {
-<form method="post">
+<EditForm OnValidSubmit="AddToCart" Model="DetailsVM" method="post">
+    <DataAnnotationsValidator />
     <div class="card container mt-4">
         <div class="card-header ml-0  row">
             <div class="col-12 col-md-6">
@@ -47,16 +48,21 @@ else
                                             <p>@productPrice.Price.ToString("c")</p>
                                         </div>
                                     }
-
-                            
                             }
-                            <div class="row pl-2">
+                                @if (!Product.ProductPrices.Any())
+                                {
+                                    <p class="text-warning">No Size available yet...</p>
+                                }
+                                else{
+                                <div class="row pl-2">
                                 <div class="col-2 text-primary"><h4>Count</h4></div>
                                 <div class="col-10">
-                                    <input type="text" class="form-control" />
-
+                                    <InputNumber @bind-Value="DetailsVM.Count" class="form-control" />
+                                    <ValidationMessage For="()=>DetailsVM.Count"></ValidationMessage>
                                 </div>
-                            </div>
+                                 </div>
+                                }
+                           
                         </div>
                        
 
@@ -73,13 +79,22 @@ else
                         <a class="btn btn-success form-control " href="/">Back to Home</a>
                     </div>
                     <div class="col-12 col-md-6 pb-1">
-                        <button type="submit" value="Add to Cart" class="btn btn-primary form-control">Add to Cart</button>
+                            @if (DetailsVM.SelectedProductPriceId>0)
+                            {
+                                //item has been selected
+                                <button type="submit" value="Add to Cart" class="btn btn-primary form-control">Add to Cart</button>
+                            }
+                            else
+                            {
+                                <button type="submit" value="Add to Cart" disabled class="btn btn-primary form-control">Add to Cart</button>
+                            }
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</form>
+</EditForm>
 
 }
 @code {
@@ -101,5 +116,10 @@ else
     {
         DetailsVM.ProductPrice = Product.ProductPrices.FirstOrDefault(u => u.Id==productPriceId);
         DetailsVM.SelectedProductPriceId=productPriceId;
+    }
+
+    private async Task AddToCart()
+    {
+        
     }
 }
