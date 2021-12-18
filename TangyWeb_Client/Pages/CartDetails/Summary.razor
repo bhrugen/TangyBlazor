@@ -1,7 +1,14 @@
 ﻿@page "/summary"
 
 
-
+@if (IsProcessing)
+{
+    <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+        <img src="images/ajax-loader.gif" />
+	</div>
+}
+else
+{
  <div class="mt-4 mx-4 px-md-5 mx-md-5 p-1">
 
         <div class="row p-2 my-3">
@@ -81,7 +88,19 @@
             </div>
         </div>
     </div>
-
+    }
 @code {
+    public bool IsProcessing { get; set; } = false;
+    private OrderDTO Order { get; set; } = null;
+    private IEnumerable<ProductDTO> Products { get; set; }
+
+    protected override async Task OnInitializedAsync()
+	{
+		IsProcessing=true;
+
+		
+
+		IsProcessing=false;
+	}
 
 }
