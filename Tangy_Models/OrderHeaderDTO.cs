@@ -46,6 +46,9 @@ namespace Tangy_Models
         [Required]
         [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
+        [Display(Name = "Email")]
+        [Required]
+        public string Email { get; set; }
 
     }
 }
