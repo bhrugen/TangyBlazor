@@ -1,5 +1,7 @@
 ﻿@page "/summary"
-
+@inject IJSRuntime _jsRuntime
+@inject ILocalStorageService _localStorage
+@inject IProductService _productService
 
 @if (IsProcessing)
 {
@@ -95,10 +97,37 @@ else
     private IEnumerable<ProductDTO> Products { get; set; }
 
     protected override async Task OnInitializedAsync()
-	{
-		IsProcessing=true;
+    {
+        IsProcessing=true;
+        List<ShoppingCart> cart = await _localStorage.GetItemAsync<List<ShoppingCart>>(SD.ShoppingCart);
+        Products = await _productService.GetAll();
+        Order= new()
+            {
+                OrderHeader= new()
+                {
+                    OrderTotal=0,
+                    Status=SD.Status_Pending
+                },
+                OrderDetails= new List<OrderDetailDTO>()
+            };
 
-		
+        foreach(var item in cart)
+        {
+            ProductDTO product = Products.FirstOrDefault(u => u.Id == item.ProductId);
+            ProductPriceDTO productPrice = product.ProductPrices.FirstOrDefault(u => u.Id == item.ProductPriceId);
+
+            OrderDetailDTO orderDetailDTO = new()
+                {
+                    ProductId = item.ProductId,
+                    Size = productPrice.Size,
+                    Count = item.Count,
+                    Price=productPrice.Price,
+                    ProductName = product.Name,
+                    Product = product
+                };
+            Order.OrderDetails.Add(orderDetailDTO);
+            Order.OrderHeader.OrderTotal +=(cart.Count * productPrice.Price);
+        }
 
 		IsProcessing=false;
 	}

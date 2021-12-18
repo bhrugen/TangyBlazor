@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tangy_DataAccess
+namespace Tangy_Models
 {
     public class OrderHeaderDTO
     {

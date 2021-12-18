@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tangy_Models;
 
-namespace Tangy_DataAccess
+namespace Tangy_Models
 {
     public class OrderDetailDTO
     {
