@@ -85,6 +85,13 @@
             var uri = new Uri(_navigationManager.Uri);
             _navigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}",forceLoad:true);
         }
+        else
+        {
+            if (!authState.User.IsInRole(Tangy_Common.SD.Role_Admin))
+            {
+                _navigationManager.NavigateTo("/ErrorPage");
+            }
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
