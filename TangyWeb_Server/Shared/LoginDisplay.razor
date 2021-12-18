@@ -1,5 +1,15 @@
-﻿<a href="Identity/Account/Register">Register</a>
-<a href="Identity/Account/Login">Login</a>
+﻿<AuthorizeView>
+    <Authorized>
+        <a href="Identity/Account/Logout">Logout</a>
+
+    </Authorized>
+    <NotAuthorized>
+        <a href="Identity/Account/Register">Register</a>
+        <a href="Identity/Account/Login">Login</a>
+
+    </NotAuthorized>
+</AuthorizeView>
+
 
 @code {
 
