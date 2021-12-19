@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Tangy_Common;
 using Tangy_DataAccess;
 using Tangy_Models;
+using TangyWeb_API.Helper;
 
 namespace TangyWeb_API.Controllers
 {
@@ -14,15 +16,18 @@ namespace TangyWeb_API.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly APISettings _aPISettings;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IOptions<APISettings> options)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager=roleManager;
+            _aPISettings= options.Value;
         }
 
         [HttpPost]
@@ -87,7 +92,7 @@ namespace TangyWeb_API.Controllers
                 }
 
                 //everything is valid and we need to login 
-
+                
 
             }
             else
