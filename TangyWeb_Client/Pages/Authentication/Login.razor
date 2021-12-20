@@ -1,6 +1,7 @@
 ﻿@page "/login"
 
-<form>
+<EditForm Model="SignInRequest" OnValidSubmit="LoginUser">
+    <DataAnnotationsValidator/>
     <div class="py-4">
         <div class=" row form-group ">
             <div class="col-6 offset-3 ">
@@ -9,11 +10,20 @@
                         <h3 class="col-12 text-success text-center py-2">
                             <strong>Sign In</strong>
                         </h3>
+
+                        @if (ShowSignInErrors)
+                        {
+                            <p class="text-center text-danger">@Errors</p>
+                        }
+
+
                         <div class="py-2">
-                            <input id="email" placeholder="Email..." class="form-control mb-2" />
+                               <InputText @bind-Value="SignInRequest.UserName" id="email" placeholder="Email..." class="form-control mb-2" />
+                               <ValidationMessage For="(()=>SignInRequest.UserName)"></ValidationMessage>
                         </div>
                         <div class="py-2">
-                            <input type="password" placeholder="Password..." id="password" class="form-control mb-2" />
+                            <InputText @bind-Value="SignInRequest.Password" type="password" placeholder="Password..." id="password" class="form-control mb-2" />
+                            <ValidationMessage For="(()=>SignInRequest.Password)"></ValidationMessage>
                         </div>
                         <div class="py-2">
                             <button type="submit" class="btn btn-success btn-block"><i class="bi bi-person-bounding-box"></i> Sign in</button>
@@ -24,7 +34,7 @@
             </div>
         </div>
     </div>
-</form>
+</EditForm>
 
 
 @code {
