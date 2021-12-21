@@ -13,15 +13,31 @@
     }
     else
     {
-        <div class="row mt-4 pt-4">
+        @if (Order.OrderHeader.Status == SD.Status_Confirmed)
+        {
+            <div class="row mt-4 pt-4">
              <div class="col-10 offset-1 text-center">
                 <h2 class="text-warning">Order Confirmed</h2>
-                <p>Your order has been placed successfully with order id </p>
+                <p>Your order has been placed successfully with order id : @Order.OrderHeader.Id</p>
             </div>
              <div class="col-8 offset-2">
                 <img src="/images/confirmation.jpg" width="100%" style="border-radius:30px;" />
             </div>
-        </div>
+            </div>
+        }
+        else
+        {
+             <div class="row mt-4 pt-4">
+                <div class="col-10 offset-1 text-center">
+                <h2 class="text-danger">Order Issue!</h2>
+                <p>Your order had payment issue please cotact us with Order ID:  @Order.OrderHeader.Id</p>
+            </div>
+            <div class="col-8 offset-2">
+                <img src="/images/confirmation.jpg" width="100%" style="border-radius:30px;" />
+            </div>
+            </div>
+        }
+
     }
 </div>
 
@@ -36,7 +52,15 @@
         Order = await _localStorage.GetItemAsync<OrderDTO>(SD.Local_OrderDetails);
         //add logic to check payment and update status
 
+        var updatedOrder = await _orderService.MarkPaymentSuccessful(Order.OrderHeader);
+        if (updatedOrder.Status==SD.Status_Confirmed)
+        {
+        await _localStorage.RemoveItemAsync(SD.ShoppingCart);
         await _localStorage.RemoveItemAsync(SD.Local_OrderDetails);
+            
+
+        }
+
 
           IsProcessing = false;
     }
