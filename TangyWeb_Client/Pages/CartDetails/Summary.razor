@@ -2,6 +2,7 @@
 @inject IJSRuntime _jsRuntime
 @inject ILocalStorageService _localStorage
 @inject IProductService _productService
+@inject IPaymentService _paymentService
 @inject IOrderService _orderService
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
@@ -137,7 +138,7 @@ else
                     Product = product
                 };
             Order.OrderDetails.Add(orderDetailDTO);
-            Order.OrderHeader.OrderTotal +=(cart.Count * productPrice.Price);
+            Order.OrderHeader.OrderTotal +=(item.Count * productPrice.Price);
         }
 
         if(await _localStorage.GetItemAsync<UserDTO>(SD.Local_UserDetails)!=null)
@@ -164,7 +165,13 @@ else
                     Order= Order
                 };
 
-            var orderHeaderSaved = await _orderService.Create(paymentDto);
+            var result = await _paymentService.Checkout(paymentDto);
+
+            Order.OrderHeader.SessionId= result.Data.ToString();
+
+            var orderDTOSaved = await _orderService.Create(paymentDto);
+
+            await _jsRuntime.InvokeVoidAsync("redirectToCheckout", result.Data.ToString());
         }
         catch(Exception e)
         {
