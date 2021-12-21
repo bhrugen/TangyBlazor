@@ -1,0 +1,43 @@
+﻿@page "/OrderConfirmation"
+
+@inject ILocalStorageService _localStorage
+@inject IOrderService _orderService
+
+
+<div class="container">
+    @if (IsProcessing)
+{
+    <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+        <img src="images/ajax-loader.gif" />
+        </div>
+    }
+    else
+    {
+        <div class="row mt-4 pt-4">
+             <div class="col-10 offset-1 text-center">
+                <h2 class="text-warning">Order Confirmed</h2>
+                <p>Your order has been placed successfully with order id </p>
+            </div>
+             <div class="col-8 offset-2">
+                <img src="/images/confirmation.jpg" width="100%" style="border-radius:30px;" />
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    private bool IsProcessing { get; set; } = false;
+    private OrderDTO Order { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsProcessing = true;
+        Order = await _localStorage.GetItemAsync<OrderDTO>(SD.Local_OrderDetails);
+        //add logic to check payment and update status
+
+        await _localStorage.RemoveItemAsync(SD.Local_OrderDetails);
+
+          IsProcessing = false;
+    }
+}
