@@ -4,6 +4,35 @@
 
 <div>
     <h4 class="card-title text-info">Order's List</h4>
+    @if (OrderHeaders.Any())
+    {
+        <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true" 
+        Data="OrderHeaders" TItem="OrderHeaderDTO" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+            <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px"/>
+            <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Name" Title="Name" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="PhoneNumber" Title="Phone Number"  Width="140px" />
+            <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="Email" Title="Email"  Width="140px" />
+            <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="OrderTotal" Title="Order Total"  Width="140px" />
+            <RadzenDataGridColumn TItem="OrderHeaderDTO" Property="OrderDate" Title="Order Date" FormatString="{0:d}" Width="140px" />
+            <RadzenDataGridColumn TItem="OrderHeaderDTO" Title="Details" >
+                <Template Context="data">
+                    <RadzenButton Click="(args=> OrderDetails(data.Id))" Text="Details" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+    }
+     else
+        {
+            if (IsLoading)
+            {
+                //loading gif
+                <div class="text-center">
+                <img src="/images/loading.gif">
+                    </div>
+            }
+        }
 </div>
 
 
@@ -31,5 +60,10 @@
         OrderHeaders = Orders.Select(u => u.OrderHeader);
         IsLoading = false;
         StateHasChanged();
+    }
+
+     private void OrderDetails(int id)
+    {
+        _navigationManager.NavigateTo("/order/details/" + id);
     }
 }
