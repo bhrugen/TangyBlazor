@@ -177,19 +177,19 @@ else
 
 @code {
     [Parameter]
-	public int Id { get; set; } = 0;
-	public bool IsLoading { get; set; } = true;
-	public OrderDTO Order { get; set; } = new();
+    public int Id { get; set; } = 0;
+    public bool IsLoading { get; set; } = true;
+    public OrderDTO Order { get; set; } = new();
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender) { 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) { 
 
-			await LoadOrder();
-		}
-	}
+            await LoadOrder();
+        }
+    }
 
-	 private async Task LoadOrder()
+    private async Task LoadOrder()
     {
         IsLoading = true;
         StateHasChanged();
@@ -199,7 +199,9 @@ else
     }
 
     private async Task UpdateOrder()
-	{
-		_jsRuntime.ToastrSuccess("Order has been updated successfully");
+    {
+        var OrderHeaderDTO = await _orderRepository.UpdateHeader(Order.OrderHeader);
+        Order.OrderHeader=OrderHeaderDTO;
+        _jsRuntime.ToastrSuccess("Order has been updated successfully");
 	}
 }
