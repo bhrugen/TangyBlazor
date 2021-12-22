@@ -167,13 +167,16 @@ else
 
             var result = await _paymentService.Checkout(paymentDto);
 
-            Order.OrderHeader.SessionId= result.Data.ToString();
+            var StripeSessionAndPI = result.Data.ToString().Split(';');
+
+            Order.OrderHeader.SessionId= StripeSessionAndPI[0];
+            Order.OrderHeader.PaymentIntentId= StripeSessionAndPI[1];
 
             var orderDTOSaved = await _orderService.Create(paymentDto);
 
              await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDTOSaved);
 
-            await _jsRuntime.InvokeVoidAsync("redirectToCheckout", result.Data.ToString());
+            await _jsRuntime.InvokeVoidAsync("redirectToCheckout", StripeSessionAndPI[0]);
         }
         catch(Exception e)
         {
