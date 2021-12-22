@@ -19,5 +19,7 @@ namespace Tangy_Business.Repository.IRepository
 
         public Task<OrderHeaderDTO> MarkPaymentSuccessful(int id);
         public Task<bool> UpdateOrderStatus(int orderId, string status);
+
+        public Task<OrderHeaderDTO> CancelOrder(int id);
     }
 }

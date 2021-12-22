@@ -1,7 +1,7 @@
 ﻿@page "/orderList"
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _navigationManager
-
+@attribute [Authorize]
 <div>
     <h4 class="card-title text-info">Order's List</h4>
     @if (OrderHeaders.Any())

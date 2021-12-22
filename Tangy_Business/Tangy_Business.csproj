@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Stripe.net" Version="39.84.0" />
   </ItemGroup>
 
   <ItemGroup>

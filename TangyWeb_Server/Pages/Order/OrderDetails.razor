@@ -2,6 +2,7 @@
 @inject IOrderRepository _orderRepository
 @inject IJSRuntime _jsRuntime
 @using Tangy_Common
+@attribute [Authorize]
 @if(IsLoading){
 	<div class="text-center">
                 <img src="/images/loading.gif">
@@ -165,7 +166,7 @@ else
                             @if (Order.OrderHeader.Status == SD.Status_Confirmed ||
                    Order.OrderHeader.Status==SD.Status_Pending)
                             {
-                                <button class="btn btn-danger form-control my-1">Cancel Order</button>
+                                <button @onclick="CancelOrder" class="btn btn-danger form-control my-1">Cancel Order</button>
                                 }
                         </div>
                 </div>
@@ -217,5 +218,19 @@ else
         var OrderHeaderDTO = await _orderRepository.UpdateHeader(Order.OrderHeader);
         Order.OrderHeader=OrderHeaderDTO;
         _jsRuntime.ToastrSuccess("Order has been Shipped!");
-	}
+    }
+
+    private async Task CancelOrder()
+    {
+        Order.OrderHeader = await _orderRepository.CancelOrder(Order.OrderHeader.Id);
+        if (Order.OrderHeader.Status==SD.Status_Cancelled)
+        {
+            _jsRuntime.ToastrSuccess("Order has been cancelled successfully");
+        }
+        if (Order.OrderHeader.Status==SD.Status_Refunded)
+        {
+            _jsRuntime.ToastrSuccess("Order has been cancelled & refunded successfully");
+        }
+        
+    }
 }
