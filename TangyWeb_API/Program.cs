@@ -94,10 +94,19 @@ StripeConfiguration.ApiKey=builder.Configuration.GetSection("Stripe")["ApiKey"];
 
 
 app.UseSwagger();
-app.UseSwaggerUI(c => {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tangy Blazor API v1");
-    c.RoutePrefix= String.Empty;
-});
+if (!app.Environment.IsDevelopment())
+{
+    app.UseSwaggerUI(c => {
+          c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tangy Blazor API v1");
+         c.RoutePrefix= String.Empty;
+    });
+}
+else
+{
+    app.UseSwaggerUI(c => {
+    });
+}
+
 app.UseHttpsRedirection();
 app.UseCors("Tangy");
 app.UseRouting();
